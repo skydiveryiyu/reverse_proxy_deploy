@@ -1,64 +1,89 @@
-# 腾讯云轻量服务器反向代理自动化部署方案
+# Reverse Proxy Deployment Solution for Tencent Cloud Lightweight Server
 
-本项目提供了一个基于 CentOS 7.8 和 Docker 的反向代理自动化部署方案。
+This project provides an automated reverse proxy deployment solution based on Ubuntu 24.04 and Docker.
 
-## 环境要求
+## Requirements
 
-- CentOS 7.8
-- Docker 20.10+
-- Docker Compose 2.0+
+- Ubuntu 24.04
+- Docker 24.0+
+- Docker Compose 2.20.0+
 
-## 目录结构
+## System Requirements
+
+### Ubuntu 24.04 System Configuration
+
+1. Update system packages:
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+2. Install Docker:
+```bash
+sudo apt install -y docker.io
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+```
+
+3. Install Docker Compose:
+```bash
+sudo apt install -y docker-compose
+```
+
+Note: You need to log out and back in after adding your user to the docker group.
+
+## Directory Structure
 
 ```
 .
-├── docker-compose.yml    # Docker Compose 配置文件
-├── nginx/               # Nginx 配置目录
-│   ├── conf.d/         # Nginx 站点配置
-│   └── nginx.conf      # Nginx 主配置文件
-├── scripts/            # 部署脚本
-│   └── deploy.sh      # 自动化部署脚本
-└── README.md          # 项目说明文档
+├── docker-compose.yml    # Docker Compose configuration file
+├── nginx/               # Nginx configuration directory
+│   ├── conf.d/         # Nginx site configurations
+│   └── nginx.conf      # Nginx main configuration file
+├── scripts/            # Deployment scripts
+│   └── deploy.sh      # Automated deployment script
+└── README.md          # Project documentation
 ```
 
-## 快速开始
+## Quick Start
 
-1. 克隆项目到服务器：
+1. Clone the project to your server:
 ```bash
-git clone [项目地址]
+git clone [project-url]
 cd reverse_proxy_deploy
 ```
 
-2. 运行部署脚本：
+2. Run the deployment script:
 ```bash
 bash scripts/deploy.sh
 ```
 
-3. 配置反向代理：
-编辑 `nginx/conf.d/default.conf` 文件，添加您的反向代理配置。
+3. Configure reverse proxy:
+Edit the `nginx/conf.d/default.conf` file to add your reverse proxy configuration.
 
-4. 重启服务：
+4. Restart the service:
 ```bash
 docker-compose restart nginx
 ```
 
-## 配置说明
+## Configuration Guide
 
-### Nginx 配置
+### Nginx Configuration
 
-Nginx 配置文件位于 `nginx/conf.d/` 目录下，您可以根据需要修改或添加新的配置文件。
+Nginx configuration files are located in the `nginx/conf.d/` directory. You can modify or add new configuration files as needed.
 
-### Docker 配置
+### Docker Configuration
 
-Docker 相关配置在 `docker-compose.yml` 文件中，包括：
-- 容器名称
-- 端口映射
-- 数据卷挂载
-- 网络设置
+Docker-related configurations are in the `docker-compose.yml` file, including:
+- Container names
+- Port mappings
+- Volume mounts
+- Network settings
 
-## 维护说明
+## Maintenance Guide
 
-- 查看服务状态：`docker-compose ps`
-- 查看服务日志：`docker-compose logs -f nginx`
-- 重启服务：`docker-compose restart nginx`
-- 停止服务：`docker-compose down` 
+- Check service status: `docker-compose ps`
+- View service logs: `docker-compose logs -f nginx`
+- Restart service: `docker-compose restart nginx`
+- Stop service: `docker-compose down` 

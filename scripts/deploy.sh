@@ -8,12 +8,22 @@ echo "Starting reverse proxy deployment..."
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
     echo "Error: Docker is not installed"
+    echo "To install Docker on Ubuntu 24.04, run:"
+    echo "sudo apt update"
+    echo "sudo apt install -y docker.io"
+    echo "sudo systemctl enable docker"
+    echo "sudo systemctl start docker"
+    echo "sudo usermod -aG docker \$USER"
+    echo "Please log out and back in after adding your user to the docker group"
     exit 1
 fi
 
 # Check if Docker Compose is installed
 if ! command -v docker-compose &> /dev/null; then
     echo "Error: Docker Compose is not installed"
+    echo "To install Docker Compose on Ubuntu 24.04, run:"
+    echo "sudo apt update"
+    echo "sudo apt install -y docker-compose"
     exit 1
 fi
 
