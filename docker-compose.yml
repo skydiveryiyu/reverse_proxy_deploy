@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   nginx:
     image: nginx:1.24-alpine
@@ -14,8 +12,6 @@ services:
       - ./nginx/ssl:/etc/nginx/ssl
     networks:
       - proxy_network
-    depends_on:
-      - nginx_react
 
 networks:
   proxy_network:

@@ -18,12 +18,12 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
-# Check if Docker Compose is installed
-if ! command -v docker-compose &> /dev/null; then
-    echo "Error: Docker Compose is not installed"
-    echo "To install Docker Compose on Ubuntu 24.04, run:"
+# Check if Docker Compose plugin is installed
+if ! docker compose version &> /dev/null; then
+    echo "Error: Docker Compose plugin is not installed"
+    echo "To install Docker Compose plugin on Ubuntu 24.04, run:"
     echo "sudo apt update"
-    echo "sudo apt install -y docker-compose"
+    echo "sudo apt install -y docker-compose-plugin"
     exit 1
 fi
 
@@ -49,20 +49,20 @@ fi
 
 # Stop and remove existing containers
 echo "Stopping existing services..."
-docker-compose down
+docker compose down
 
 # Pull latest images
 echo "Pulling latest images..."
-docker-compose pull
+docker compose pull
 
 # Start services
 echo "Starting services..."
-docker-compose up -d
+docker compose up -d
 
 # Check service status
 echo "Checking service status..."
-docker-compose ps
+docker compose ps
 
 echo "Deployment completed!"
 echo "You can view service logs using:"
-echo "docker-compose logs -f nginx" 
+echo "docker compose logs -f nginx" 

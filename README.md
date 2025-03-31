@@ -6,7 +6,7 @@ This project provides an automated reverse proxy deployment solution based on Ub
 
 - Ubuntu 24.04
 - Docker 24.0+
-- Docker Compose 2.20.0+
+- Docker Compose Plugin 2.20.0+
 
 ## System Requirements
 
@@ -26,9 +26,9 @@ sudo systemctl start docker
 sudo usermod -aG docker $USER
 ```
 
-3. Install Docker Compose:
+3. Install Docker Compose Plugin:
 ```bash
-sudo apt install -y docker-compose
+sudo apt install -y docker-compose-plugin
 ```
 
 Note: You need to log out and back in after adding your user to the docker group.
@@ -64,7 +64,7 @@ Edit the `nginx/conf.d/default.conf` file to add your reverse proxy configuratio
 
 4. Restart the service:
 ```bash
-docker-compose restart nginx
+docker compose restart nginx
 ```
 
 ## Configuration Guide
@@ -83,7 +83,7 @@ Docker-related configurations are in the `docker-compose.yml` file, including:
 
 ## Maintenance Guide
 
-- Check service status: `docker-compose ps`
-- View service logs: `docker-compose logs -f nginx`
-- Restart service: `docker-compose restart nginx`
-- Stop service: `docker-compose down` 
+- Check service status: `docker compose ps`
+- View service logs: `docker compose logs -f nginx`
+- Restart service: `docker compose restart nginx`
+- Stop service: `docker compose down` 
