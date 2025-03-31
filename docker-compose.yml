@@ -12,17 +12,6 @@ services:
       - ./ssl:/etc/nginx/ssl
     networks:
       - proxy_network
-    depends_on:
-      - nginx_react
-
-  nginx_react:
-    image: nginx:1.24-alpine
-    container_name: nginx_react
-    restart: always
-    expose:
-      - "10309"
-    networks:
-      - proxy_network
 
 networks:
   proxy_network:
