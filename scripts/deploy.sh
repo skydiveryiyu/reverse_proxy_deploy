@@ -32,8 +32,17 @@ if [ ! -d "nginx/conf.d" ]; then
     mkdir -p nginx/conf.d
 fi
 
-if [ ! -d "nginx/ssl" ]; then
-    mkdir -p nginx/ssl
+if [ ! -d "ssl" ]; then
+    mkdir -p ssl
+fi
+
+# Check if SSL files exist
+if [ ! -f "ssl/2025/pem/iciculture.com.pem" ] || [ ! -f "ssl/2025/pem/iciculture.com.key" ]; then
+    echo "Error: SSL certificate files not found"
+    echo "Please ensure the following files exist:"
+    echo "- ssl/2025/pem/iciculture.com.pem"
+    echo "- ssl/2025/pem/iciculture.com.key"
+    exit 1
 fi
 
 # Check if configuration files exist

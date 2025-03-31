@@ -2,6 +2,81 @@
 
 This project provides an automated reverse proxy deployment solution based on Ubuntu 24.04 and Docker.
 
+## Architecture Overview
+
+### System Architecture
+```mermaid
+graph LR
+    Client[Client Browser] --HTTPS/443--> ReverseProxy[Reverse Proxy\nNginx Container]
+    Client --HTTP/80--> ReverseProxy
+    ReverseProxy --HTTP/10309--> Backend[Backend Service\nNginx React Container]
+    subgraph Docker Network
+        ReverseProxy
+        Backend
+    end
+    subgraph SSL
+        Cert[SSL Certificate\niciculture.com.pem]
+        Key[SSL Key\niciculture.com.key]
+    end
+    Cert --> ReverseProxy
+    Key --> ReverseProxy
+```
+
+### Container Network Architecture
+```mermaid
+graph TB
+    subgraph Docker Compose Network
+        subgraph Reverse Proxy Container
+            RP[Nginx Reverse Proxy]
+            SSL[SSL Termination]
+        end
+        subgraph Backend Container
+            BE[Nginx React App]
+        end
+        RP --proxy_pass--> BE
+    end
+    Client[Client] --HTTPS--> RP
+    Client --HTTP--> RP
+```
+
+### SSL Configuration Flow
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant RP as Reverse Proxy
+    participant BE as Backend Service
+    
+    C->>RP: HTTPS Request
+    Note over RP: SSL Termination
+    RP->>BE: HTTP Request (Internal)
+    BE->>RP: HTTP Response
+    RP->>C: HTTPS Response
+```
+
+## Key Features
+
+1. **SSL Termination**
+   - Handles HTTPS connections from clients
+   - Uses SSL certificates for secure communication
+   - Forwards requests internally over HTTP
+
+2. **Load Balancing**
+   - Distributes incoming traffic
+   - Health checks for backend services
+   - Automatic failover capabilities
+
+3. **Security Features**
+   - TLS 1.2/1.3 support
+   - Strong cipher configurations
+   - HTTP/2 support
+   - Security headers
+
+4. **Performance Optimization**
+   - Static file caching
+   - Compression for text-based content
+   - Connection pooling
+   - WebSocket support
+
 ## Requirements
 
 - Ubuntu 24.04
