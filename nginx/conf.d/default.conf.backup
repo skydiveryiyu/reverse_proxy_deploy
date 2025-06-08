@@ -15,41 +15,6 @@ server {
     # Access logs
     access_log /var/log/nginx/access.log;
     error_log /var/log/nginx/error.log;
-    
-# 静态资源代理
-location ~ ^/timeline/(assets/|css/|js/|img/|fonts/|locale/|data/|vite\.svg|timeline\.js|timeline\.css) {
-    rewrite ^/timeline/(.*)$ /$1 break;
-    proxy_pass http://172.17.0.1:18080;  # 没有斜杠
-    proxy_set_header Host $host;
-    # ... 其他 proxy_set_header ...
-    expires 30d;
-    add_header Cache-Control "public, no-transform";
-}
-
-    # Timeline service proxy (SPA)
-    location /timeline/ {
-        proxy_pass http://172.17.0.1:18080/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Port $server_port;
-        proxy_set_header X-Forwarded-Host $host;
-
-        # WebSocket support
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-
-        # Timeout settings
-        proxy_connect_timeout 60s;
-        proxy_send_timeout 60s;
-        proxy_read_timeout 60s;
-
-        # For SPA: let backend serve index.html for unknown routes
-        proxy_intercept_errors on;
-        error_page 404 =200 /index.html;
-    }
 
     # Proxy to the website service
     location / {
